@@ -143,8 +143,8 @@ $vyn = "ಕ|ಖ|ಗ|ಘ|ಙ|ಚ|ಛ|ಜ|ಝ|ಞ|ಟ|ಠ|ಡ|ಢ|ಣ|ತ|ಥ|ದ|
 #$str = "ಸ್ವಾತಂತ್ರ್ಯ";
 #$str = "ನೀಲ್ ಆರ್ಮ್‌ಸ್ಟ್ರಾಂಗ್";
 
-$infile = "bvartika_uni.tex";
-$outfile = "bvartika.tex";
+$infile = "/home/sriranga/projects/Bruhadaranyaka_vartika/bvartika_uni.tex";
+$outfile = "/home/sriranga/projects/Bruhadaranyaka_vartika/bvartika.tex";
 
 open(IN,"<:encoding(UTF-8)","$infile") or die "Can't open $infile\n";
 open(OUT,">$outfile") or die "Can't open $outfile\n";
@@ -193,11 +193,7 @@ for($i=0;$i<@list; $i++)
 		if( ($hex == "200C") && ($prev == 4) )
 		{
 			$kantex =~ s/a/f/;
-			$kantex =~ s/r(f|a|A|i|iV|u|U|e|eV|eY|o|oV)($vy_kan)x/\2\1R/;			
-			$kantex =~ s/R($vy_kan)X/\1xR/;
-			$kantex =~ s/V($vy_kan)x($vy_kan)X($vy_kan)X/\1x\2X\3XV/g;
-			$kantex =~ s/V($vy_kan)x($vy_kan)X/\1x\2XV/g;
-			$kantex =~ s/V($vy_kan)x/\1xV/g;
+			$kantex = reorganize($kantex);	
 			print OUT $kantex;
 			$prev = 0;
 			#print $hex . "\n";
@@ -208,11 +204,7 @@ for($i=0;$i<@list; $i++)
 		elsif($prev == 4)
 		{
 			$kantex =~ s/a/f/;
-			$kantex =~ s/r(f|a|A|i|iV|u|U|e|eV|eY|o|oV)($vy_kan)x/\2\1R/;			
-			$kantex =~ s/R($vy_kan)X/\1xR/;
-			$kantex =~ s/V($vy_kan)x($vy_kan)X($vy_kan)X/\1x\2X\3XV/g;
-			$kantex =~ s/V($vy_kan)x($vy_kan)X/\1x\2XV/g;
-			$kantex =~ s/V($vy_kan)x/\1xV/g;			
+			$kantex = reorganize($kantex);
 			print OUT $kantex;
 			$list[$i] =~ s/॥/||/g;
 			print OUT $list[$i];	
@@ -223,11 +215,7 @@ for($i=0;$i<@list; $i++)
 		}
 		else
 		{
-			$kantex =~ s/r(f|a|A|i|iV|u|U|e|eV|eY|o|oV)($vy_kan)x/\2\1R/;			
-			$kantex =~ s/R($vy_kan)X/\1xR/;
-			$kantex =~ s/V($vy_kan)x($vy_kan)X($vy_kan)X/\1x\2X\3XV/g;
-			$kantex =~ s/V($vy_kan)x($vy_kan)X/\1x\2XV/g;
-			$kantex =~ s/V($vy_kan)x/\1xV/g;			
+			$kantex = reorganize($kantex);
 			print OUT $kantex;
 			$list[$i] =~ s/॥/||/g;
 			print OUT $list[$i];			
@@ -244,11 +232,7 @@ if($kantex ne "")
 	{
 		$kantex =~ s/a/f/;
 	}
-	$kantex =~ s/r(f|a|A|i|iV|u|U|e|eV|eY|o|oV)($vy_kan)x/\2\1R/;
-	$kantex =~ s/R($vy_kan)X/\1xR/;
-	$kantex =~ s/V($vy_kan)x($vy_kan)X($vy_kan)X/\1x\2X\3XV/g;
-	$kantex =~ s/V($vy_kan)x($vy_kan)X/\1x\2XV/g;
-	$kantex =~ s/V($vy_kan)x/\1xV/g;	
+	$kantex = reorganize($kantex);
 	print OUT $kantex . "\n";
 }
 
@@ -304,11 +288,7 @@ sub Convert_to_TeX()
 		
 		if( ($vflag > 1) && ( ($hl_count == 0) || ( ($vflag-1) != $hl_count ) ) )
 		{
-			$kantex =~ s/r(f|a|A|i|iV|u|U|e|eV|eY|o|oV)($vy_kan)x/\2\1R/;
-			$kantex =~ s/R($vy_kan)X/\1xR/;
-			$kantex =~ s/V($vy_kan)x($vy_kan)X($vy_kan)X/\1x\2X\3XV/g;
-			$kantex =~ s/V($vy_kan)x($vy_kan)X/\1x\2XV/g;
-			$kantex =~ s/V($vy_kan)x/\1xV/g;			
+			$kantex = reorganize($kantex);			
 			print OUT $kantex;
 			#print "#################-v($vflag($hl_count))\n";			
 			$hl_count = 0;
@@ -359,11 +339,7 @@ sub Convert_to_TeX()
 		{
 			$kantex =~ s/a/$symbols_a{$unicode}/;			
 		}
-		$kantex =~ s/r(f|a|A|i|iV|u|U|e|eV|eY|o|oV)($vy_kan)x/\2\1R/;
-		$kantex =~ s/R($vy_kan)X/\1xR/;
-		$kantex =~ s/V($vy_kan)x($vy_kan)X($vy_kan)X/\1x\2X\3XV/g;
-		$kantex =~ s/V($vy_kan)x($vy_kan)X/\1x\2XV/g;
-		$kantex =~ s/V($vy_kan)x/\1xV/g;			
+		$kantex = reorganize($kantex);				
 		print OUT $kantex;
 		#print $unicode . "-->" . " is a symbol\n";
 		#print "#################-sy\n";
@@ -383,11 +359,7 @@ sub Convert_to_TeX()
 		{
 			$kantex = $kantex . "H";
 		}
-		$kantex =~ s/r(f|a|A|i|iV|u|U|e|eV|eY|o|oV)($vy_kan)x/\2\1R/;
-		$kantex =~ s/R($vy_kan)X/\1xR/;
-		$kantex =~ s/V($vy_kan)x($vy_kan)X($vy_kan)X/\1x\2X\3XV/g;
-		$kantex =~ s/V($vy_kan)x($vy_kan)X/\1x\2XV/g;
-		$kantex =~ s/V($vy_kan)x/\1xV/g;		
+		$kantex = reorganize($kantex);		
 		print OUT $kantex;		
 		#print $unicode . "-->" . " is either anuswara or visarga\n";
 		$hl_count = 0;
@@ -516,3 +488,21 @@ sub is_MH()
 	}
 }
 
+sub reorganize()
+{
+	my($mykantex) = @_;
+
+	$mykantex =~ s/r(f|a|A|i|iV|u|U|e|eV|eY|o|oV)($vy_kan)x/\2\1R/;			
+	$mykantex =~ s/R($vy_kan)X/\1xR/;
+	$mykantex =~ s/V($vy_kan)x($vy_kan)X($vy_kan)X/\1x\2X\3XV/g;
+	$mykantex =~ s/V($vy_kan)x($vy_kan)X/\1x\2XV/g;
+	$mykantex =~ s/V($vy_kan)x/\1xV/g;	
+
+	$mykantex =~ s/Y($vy_kan)x($vy_kan)X($vy_kan)X/\1x\2X\3XY/g;
+	$mykantex =~ s/Y($vy_kan)x($vy_kan)X/\1x\2XY/g;
+	$mykantex =~ s/Y($vy_kan)x/\1xY/g;
+
+	$mykantex =~ s/($vy_kan)xq/\1xqq/g;
+
+	return $mykantex;
+}
